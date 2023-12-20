@@ -1,8 +1,6 @@
 package main
 
-import (
-	"gogger/logger"
-)
+import "github.com/Avdushin/gogger/logger"
 
 func main() {
 	// Запись в файл logs/logs.log

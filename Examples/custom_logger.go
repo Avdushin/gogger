@@ -1,7 +1,7 @@
 package main
 
 import (
-	"gogger/logger"
+	"github.com/Avdushin/gogger/logger"
 )
 
 func main() {
