@@ -208,3 +208,10 @@ func (l *Logger) logLevelToString(level LogLevel) string {
 		return "INFO"
 	}
 }
+
+func (l *Logger) Write(p []byte) (n int, err error) {
+	l.mu.Lock()
+	defer l.mu.Unlock()
+	l.fileLogger.Print(string(p))
+	return len(p), nil
+}
