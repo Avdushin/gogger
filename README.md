@@ -6,6 +6,7 @@
 
 ```
 go get -u github.com/Avdushin/gogger/logger
+go get -u github.com/Avdushin/gogger/lib
 ```
 
 ## Examples
