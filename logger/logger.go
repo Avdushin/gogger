@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-// Уровни логирования
+// @ Уровни логирования
 type LogLevel int
 
 const (
@@ -20,7 +20,7 @@ const (
 	ERROR
 )
 
-// Logger - основная структура логгера
+// @ Logger - основная структура логгера
 type Logger struct {
 	mu         sync.Mutex
 	fileWriter io.Writer
@@ -28,7 +28,7 @@ type Logger struct {
 	logFormat  string
 }
 
-// CreateDailyLogFile создает файл лога в отдельной папке с именем текущей даты
+// @ CreateDailyLogFile создает файл лога в отдельной папке с именем текущей даты
 func (l *Logger) CreateDailyLogFile() (string, error) {
 	// Определяем текущую дату
 	now := time.Now()
@@ -99,7 +99,7 @@ func New(args ...interface{}) *Logger {
 	return l
 }
 
-// createLogFile создает файл лога и его директорию, если они не существуют
+// @ createLogFile создает файл лога и его директорию, если они не существуют
 func createLogFile(filePath string) error {
 	dir := filepath.Dir(filePath)
 	err := os.MkdirAll(dir, os.ModePerm)
@@ -116,21 +116,21 @@ func createLogFile(filePath string) error {
 	return nil
 }
 
-// SetLogLevel устанавливает уровень логирования
+// @ SetLogLevel устанавливает уровень логирования
 func (l *Logger) SetLogLevel(level LogLevel) {
 	l.mu.Lock()
 	defer l.mu.Unlock()
 	l.logLevel = level
 }
 
-// SetLogFormat устанавливает формат лога
+// @ SetLogFormat устанавливает формат лога
 func (l *Logger) SetLogFormat(format string) {
 	l.mu.Lock()
 	defer l.mu.Unlock()
 	l.logFormat = format
 }
 
-// log записывает лог в консоль и/или файл в зависимости от настроек
+// @ log записывает лог в консоль и/или файл в зависимости от настроек
 func (l *Logger) log(level LogLevel, format string, args ...interface{}) {
 	if level < l.logLevel {
 		return
@@ -154,42 +154,6 @@ func (l *Logger) log(level LogLevel, format string, args ...interface{}) {
 		// Добавляем временную метку и записываем в файл
 		fullMsg = fmt.Sprintf("[%s] %s", time.Now().Format("2006-01-02 15:04:05"), fullMsg)
 		fmt.Fprintln(l.fileWriter, fullMsg)
-	}
-}
-
-// Debug записывает лог уровня DEBUG
-func (l *Logger) Debug(format string, args ...interface{}) {
-	l.log(DEBUG, format, args...)
-}
-
-// Info записывает лог уровня INFO
-func (l *Logger) Info(format string, args ...interface{}) {
-	l.log(INFO, format, args...)
-}
-
-// Warning записывает лог уровня WARNING
-func (l *Logger) Warning(format string, args ...interface{}) {
-	l.log(WARNING, format, args...)
-}
-
-// Error записывает лог уровня ERROR
-func (l *Logger) Error(format string, args ...interface{}) {
-	l.log(ERROR, format, args...)
-}
-
-// logLevelToString преобразует уровень логирования в строку
-func (l *Logger) logLevelToString(level LogLevel) string {
-	switch level {
-	case DEBUG:
-		return "DEBUG"
-	case INFO:
-		return "INFO"
-	case WARNING:
-		return "WARNING"
-	case ERROR:
-		return "ERROR"
-	default:
-		return "INFO"
 	}
 }
 
