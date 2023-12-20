@@ -1,5 +1,11 @@
 # GOGGER - simple logger for GO projects
 
+## Installation
+
+```
+go get -u github.com/Avdushin/gogger/logger
+```
+
 ### Example
 
 ```go
