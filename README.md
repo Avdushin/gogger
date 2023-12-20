@@ -1,7 +1,12 @@
+# GOGGER - simple logger for GO projects
+
+### Example
+
+```go
 package main
 
 import (
-	"gogger/logger"
+	"github.com/Avdushin/gogger/logger"
 )
 
 func main() {
@@ -16,3 +21,5 @@ func main() {
 	log.Error("Пример лога уровня ERROR")
 	log.Print("Just Print INFO message")
 }
+
+```
