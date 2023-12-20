@@ -6,7 +6,7 @@ import (
 
 func main() {
 	// Создаем новый логгер с уровнем WARNING и записью в файл "custom.log"
-	log := logger.New(logger.WARNING)
+	log := logger.InitLogger()
 
 	// Пример использования логгера с пользовательским форматом
 	log.SetLogFormat("Custom Format: %s")

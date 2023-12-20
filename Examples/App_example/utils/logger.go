@@ -1,8 +1,11 @@
-package main
+package utils
 
-import "github.com/Avdushin/gogger/logger"
+import (
+	"github.com/Avdushin/gogger/lib"
+	"github.com/Avdushin/gogger/logger"
+)
 
-func main() {
+func Logger() *lib.Logger {
 	// Запись в файл logs/logs.log
 	log := logger.InitLogger("logs/logs.log")
 
@@ -12,4 +15,6 @@ func main() {
 	log.Warning("Пример лога уровня WARNING")
 	log.Error("Пример лога уровня ERROR")
 	log.Print("Just Print INFO message")
+
+	return log
 }

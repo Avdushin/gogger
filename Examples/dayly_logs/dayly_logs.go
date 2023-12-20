@@ -6,7 +6,7 @@ import (
 
 func main() {
 	// Создаем новый логгер
-	log := logger.New()
+	log := logger.InitLogger()
 	// Лог файлы будут создаваться автоматически в директории "./logs/сегодняя-дата/сегодняя-дата-время/"
 	log.CreateDailyLogFile()
 

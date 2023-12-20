@@ -6,7 +6,7 @@ import (
 
 func main() {
 	// Создаем новый логгер
-	log := logger.New()
+	log := logger.InitLogger()
 
 	// Пример использования логгера
 	log.Info("Пример лога уровня INFO")

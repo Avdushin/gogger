@@ -1,4 +1,4 @@
-package logger
+package lib
 
 // Debug записывает лог уровня DEBUG
 func (l *Logger) Debug(format string, args ...interface{}) {
