@@ -1,4 +1,5 @@
-module module github.com/Avdushin/gogger
+module github.com/Avdushin/gogger
+
 
 
 go 1.20
