@@ -2,13 +2,12 @@ package logger
 
 import (
 	"fmt"
+	"io"
 	"log"
 	"os"
 	"path/filepath"
 	"sync"
 	"time"
-
-	"github.com/fatih/color"
 )
 
 // Уровни логирования
@@ -24,9 +23,8 @@ const (
 // Logger - основная структура логгера
 type Logger struct {
 	mu         sync.Mutex
+	fileWriter io.Writer
 	logLevel   LogLevel
-	filePath   string
-	fileLogger *log.Logger
 	logFormat  string
 }
 
@@ -56,8 +54,7 @@ func (l *Logger) CreateDailyLogFile() (string, error) {
 	}
 
 	// Сохраняем путь к файлу в структуре Logger
-	l.filePath = filePath
-	l.fileLogger = log.New(file, "", log.Ldate|log.Ltime)
+	l.fileWriter = file
 
 	return filePath, nil
 }
@@ -93,9 +90,7 @@ func New(args ...interface{}) *Logger {
 			}
 
 			// Устанавливаем файл в качестве вывода для стандартного логгера
-			l.fileLogger = log.New(file, "", log.Ldate|log.Ltime)
-
-			l.filePath = v
+			l.fileWriter = file
 		default:
 			log.Fatalf("Неподдерживаемый тип аргумента: %T", v)
 		}
@@ -152,25 +147,14 @@ func (l *Logger) log(level LogLevel, format string, args ...interface{}) {
 	l.mu.Lock()
 	defer l.mu.Unlock()
 
-	if l.fileLogger != nil {
-		l.fileLogger.Println(fullMsg)
-	}
-
-	// Выбор цвета в зависимости от уровня логирования
-	switch level {
-	case INFO:
-		color.Set(color.FgWhite)
-	case DEBUG:
-		color.Set(color.FgGreen)
-	case WARNING:
-		color.Set(color.FgYellow)
-	case ERROR:
-		color.Set(color.FgRed)
-	}
-
-	defer color.Unset()
-
+	// Вывод в консоль с использованием стандартного log
 	log.Println(fullMsg)
+
+	if l.fileWriter != nil {
+		// Добавляем временную метку и записываем в файл
+		fullMsg = fmt.Sprintf("[%s] %s", time.Now().Format("2006-01-02 15:04:05"), fullMsg)
+		fmt.Fprintln(l.fileWriter, fullMsg)
+	}
 }
 
 // Debug записывает лог уровня DEBUG
@@ -212,6 +196,5 @@ func (l *Logger) logLevelToString(level LogLevel) string {
 func (l *Logger) Write(p []byte) (n int, err error) {
 	l.mu.Lock()
 	defer l.mu.Unlock()
-	l.fileLogger.Print(string(p))
-	return len(p), nil
+	return l.fileWriter.Write(p)
 }
