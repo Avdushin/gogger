@@ -5,4 +5,4 @@
 package gogger
 
 // Version is the current gogger logger version.
-const Version = "v1.0.0"
+const Version = "v1.0.1"
