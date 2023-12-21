@@ -9,6 +9,13 @@ go get -u github.com/Avdushin/gogger/logger
 go get -u github.com/Avdushin/gogger/lib
 ```
 
+## Documentation
+
+```bash
+go install golang.org/x/tools/cmd/godoc@latest
+godoc -http :8080
+```
+
 ## Examples
 
 ### Init logger

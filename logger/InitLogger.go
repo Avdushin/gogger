@@ -1,3 +1,4 @@
+// The logger package contains the implementation of core logging methods
 package logger
 
 import (

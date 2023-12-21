@@ -1,3 +1,4 @@
+// The lib package contains core functionality of the Gogger
 package lib
 
 import (
